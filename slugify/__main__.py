@@ -4,11 +4,14 @@ import argparse
 import sys
 from typing import Any
 
+from .__version__ import __version__
 from .slugify import slugify, DEFAULT_SEPARATOR
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Slug string")
+    parser.add_argument("--version", action='version', version='%(prog)s ' + __version__,
+                        help="Show the program version and exit")
 
     input_group = parser.add_argument_group(description="Input")
     input_group.add_argument("input_string", nargs='*',
