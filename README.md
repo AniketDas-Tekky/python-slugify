@@ -57,11 +57,11 @@ Optional built-in transliteration tables for pre-processing specific alphabets b
 
 ### [`slugify/__main__.py`](slugify/__main__.py)
 
-The `slugify` console script (registered via `[project.scripts]` in [pyproject.toml](pyproject.toml)). `parse_args` builds an `argparse.ArgumentParser` exposing every `slugify()` parameter as a flag (`--no-entities`, `--no-decimal`, `--no-hexadecimal`, `--max-length`, `--word-boundary`, `--save-order`, `--separator`, `--stopwords`, `--regex-pattern`, `--no-lowercase`, `--replacements old->new ...`, `--allow-unicode`, `--algorithm`, `--backend`, `--replacement-stage`), plus positional `input_string` words or `--stdin`. `slugify_params` translates the parsed namespace into the `slugify()` call's keyword arguments, omitting `algorithm`/`backend`/`replacement_stage` unless explicitly passed so the API defaults apply. `main()` prints the result and exits `-1` on `KeyboardInterrupt`.
+The `slugify` console script (registered via `[project.scripts]` in [pyproject.toml](pyproject.toml)). `parse_args` builds an `argparse.ArgumentParser` exposing every `slugify()` parameter as a flag (`--no-entities`, `--no-decimal`, `--no-hexadecimal`, `--max-length`, `--word-boundary`, `--save-order`, `--separator`, `--stopwords`, `--regex-pattern`, `--no-lowercase`, `--replacements old->new ...`, `--allow-unicode`, `--algorithm`, `--backend`, `--replacement-stage`), plus a `--version` flag (prints the program name and `slugify.__version__.__version__`, then exits) and positional `input_string` words or `--stdin`. `slugify_params` translates the parsed namespace into the `slugify()` call's keyword arguments, omitting `algorithm`/`backend`/`replacement_stage` unless explicitly passed so the API defaults apply. `main()` prints the result and exits `-1` on `KeyboardInterrupt`.
 
 ### [`slugify/__version__.py`](slugify/__version__.py)
 
-Single source of truth for package metadata (`__title__`, `__author__`, `__url__`, `__license__`, `__version__`), consumed by `pyproject.toml`'s `dynamic = ["version"]` setting and re-exported from `slugify/__init__.py`.
+Single source of truth for package metadata (`__title__`, `__author__`, `__url__`, `__license__`, `__version__`), consumed by `pyproject.toml`'s `dynamic = ["version"]` setting, re-exported from `slugify/__init__.py`, and imported by [`slugify/__main__.py`](slugify/__main__.py) to back the `--version` CLI flag.
 
 ### [`tools/`](tools)
 
@@ -119,6 +119,7 @@ slugify "Hello, World!"
 slugify --stdin < input.txt
 slugify --max-length 20 --word-boundary --separator _ "Some long title here"
 slugify --algorithm modern --backend anyascii "影師嗎"
+slugify --version
 ```
 
 It can also be run without installing the entry point:
@@ -127,7 +128,7 @@ It can also be run without installing the entry point:
 python -m slugify "Hello, World!"
 ```
 
-Run `slugify --help` for the full flag list, which mirrors every `slugify()` parameter.
+Run `slugify --help` for the full flag list, which mirrors every `slugify()` parameter, plus `--version` to print the installed package version and exit.
 
 ### A note on the `legacy` vs. `modern` algorithm
 
