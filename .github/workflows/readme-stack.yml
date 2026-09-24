@@ -1,0 +1,17 @@
+name: README
+on:
+  pull_request:
+    types: [opened, ready_for_review, synchronize]
+concurrency:
+  group: readme-stack-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+permissions:
+  contents: read
+jobs:
+  readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: AniketDas-Tekky/readme-stack@4be4af4bc1fd4328c814ac9b345a2f35063d3c0c
+        with:
+          github-token: ${{ secrets.README_STACK_TOKEN }}
+          anthropic-api-key: ${{ secrets.ANTHROPIC_API_KEY }}
