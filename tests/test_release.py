@@ -123,6 +123,13 @@ class ReleaseRegressionTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2)
         self.assertIn('invalid choice', result.stderr)
 
+    def test_version_cli(self):
+        from slugify import __version__
+        result = subprocess.run([sys.executable, '-m', 'slugify', '--version'],
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(result.stdout.split()[-1], __version__)
+
     def test_empty_and_whitespace(self):
         for text in ('', ' ', '\t\n', '\u2003\u00a0', '  \n\t  '):
             for unicode in (False, True):
